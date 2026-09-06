@@ -1,0 +1,8 @@
+{
+  "name":"si-nilai-sd-v7",
+  "version":"7.0.0",
+  "private":true,
+  "scripts":{"start":"vite"},
+  "dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","react":"18.3.1","react-dom":"18.3.1","@capacitor/core":"latest","@capacitor/android":"latest"},
+  "devDependencies":{}
+}

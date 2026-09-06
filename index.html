@@ -74,13 +74,13 @@ function makeDocs(kelas,mapel){
 }
 function seed(){
  const docs={}; for(const k of CLASSES)for(const s of SUBJECTS)docs[k+"|"+s]=makeDocs(k,s);
- return {school:{name:"SD Contoh",teacher:"",nip:"",year:"2026/2027"},students:[],scores:{},docs};
+ return {school:{name:"SD Contoh",teacher:"",nip:"",year:"2026/2027"},students:[],scores:{},docs,guru:[{id:1,name:"Admin Guru",username:"guru",password:"123456",role:"Admin"}]};
 }
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.docs?x:seed()}catch(e){return seed()}}
 function App(){
- const [tab,setTab]=useState("Dashboard"),[kelas,setKelas]=useState("IV"),[mapel,setMapel]=useState("Bahasa Indonesia"),[db,setDb]=useState(load),[semester,setSemester]=useState(1),[notice,setNotice]=useState("");
+ const [tab,setTab]=useState("Dashboard"),[kelas,setKelas]=useState("IV"),[guru,setGuru]=useState(null),[guruDb,setGuruDb]=useState(db.guru||[]),[mapel,setMapel]=useState("Bahasa Indonesia"),[db,setDb]=useState(load),[semester,setSemester]=useState(1),[notice,setNotice]=useState("");
  const key=kelas+"|"+mapel, doc=db.docs[key]||makeDocs(kelas,mapel), chapters=SIBI[key]||[];
- useEffect(()=>localStorage.setItem(KEY,JSON.stringify(db)),[db]);
+ useEffect(()=>localStorage.setItem(KEY,JSON.stringify({...db,guru:guruDb})),[db]);
  const setDoc=(name,val)=>setDb(d=>({...d,docs:{...d.docs,[key]:{...d.docs[key],[name]:val}}}));
  const addStudent=()=>setDb(d=>({...d,students:[...d.students,{id:Date.now(),name:"Siswa Baru",nis:"",nisn:"",gender:"",address:""}]}));
  const upStudent=(id,k,v)=>setDb(d=>({...d,students:d.students.map(s=>s.id===id?{...s,[k]:v}:s)}));
@@ -93,8 +93,8 @@ function App(){
  const nav=tabName=><button className={tab===tabName?"active":""} onClick={()=>setTab(tabName)}>{tabName}</button>;
  return <div>
   <div className="top"><h1>SI-NILAI SD V7 LENGKAP — 2026/2027</h1><small>Kurikulum Merdeka • Fase A, B, C • Tanpa STS</small></div>
-  <div className="mobile">{["Dashboard","Data Siswa","CP","TP","ATP","Prota","Prosem","RPM Deep Learning","Penilaian Per BAB","Rapor","Import Data"].map(nav)}</div>
-  <div className="layout"><aside className="side">{["Dashboard","Data Siswa","CP","TP","ATP","Prota","Prosem","RPM Deep Learning","Penilaian Per BAB","Rapor","Import Data"].map(nav)}</aside>
+  <div className="mobile">{["Dashboard","Data Siswa","Import Data Siswa","Login Guru","CP","TP","ATP","Prota","Prosem","RPM Deep Learning","Penilaian Per BAB","Rapor","Database Guru"].map(nav)}</div>
+  <div className="layout"><aside className="side">{["Dashboard","Data Siswa","Import Data Siswa","Login Guru","CP","TP","ATP","Prota","Prosem","RPM Deep Learning","Penilaian Per BAB","Rapor","Database Guru"].map(nav)}</aside>
   <main className="main">
    {notice&&<div className="notice ok">{notice}</div>}
    <div className="card noprint"><div className="row">
@@ -122,9 +122,7 @@ function App(){
 
    {tab==="Rapor"&&<div className="card"><div className="title"><h2>Rapor</h2><button onClick={()=>window.print()}>Cetak / Simpan PDF</button></div><div className="field"><label>Nama Sekolah</label><input value={db.school.name} onChange={e=>setDb({...db,school:{...db.school,name:e.target.value}})}/></div><div className="field"><label>Guru/Kelas</label><input value={db.school.teacher} onChange={e=>setDb({...db,school:{...db.school,teacher:e.target.value}})}/></div><div className="table"><table><thead><tr><th>No</th><th>Nama</th><th>Mapel</th><th>Rata-rata BAB</th><th>Nilai Akhir Semester</th><th>Deskripsi</th></tr></thead><tbody>{db.students.map((s,i)=>{let vals=chapters.map((_,j)=>Number(getScore(s.id,j+1,semester))).filter(x=>x>0),avg=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"-",akhir=getScore(s.id,99,semester);return <tr><td>{i+1}</td><td>{s.name}</td><td>{mapel}</td><td>{avg}</td><td>{akhir||"-"}</td><td>{avg==="-"?"Belum ada nilai.":Number(avg)>=90?"Sangat Baik.":Number(avg)>=80?"Baik.":"Perlu penguatan dan pendampingan."}</td></tr>})}</tbody></table></div></div>}
 
-   {tab==="Import Data"&&<div className="card"><h2>Import / Backup Data</h2><p>Data aplikasi tersimpan di browser perangkat ini.</p><div className="actions"><button onClick={backup}>Download Backup JSON</button><label><button className="secondary">Restore JSON</button><input className="noprint" type="file" accept=".json" onChange={restore} style={{display:"none"}}/></label><button className="secondary" onClick={()=>{setDb(seed());setNotice("Data dasar V7 dikembalikan.")}}>Kembalikan Data Dasar V7</button></div><hr/><p className="muted">Untuk penggunaan banyak guru/perangkat secara bersama, tahap berikutnya adalah menghubungkan V7 ke backend dan PostgreSQL/Neon.</p></div>}
-  </main></div>
- </div>
-}
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
-</script></body></html>
+   
+   {tab==="Import Data Siswa"&&<div className="card"><h2>Import Data Siswa</h2>
+    <p>Gunakan CSV dengan kolom: Nama,NIS,NISN,JK,Alamat.</p>
+    <div className="actions"><button onClick={()=>{const csv="Nama,NIS,NISN,JK,Alamat\nContoh Siswa,001,1234567890,L,Jl. Contoh";const a=document.createElement(

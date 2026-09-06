@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SI-NILAI SD V7 Lengkap — 2026/2027</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root{--nav:#0f172a;--pri:#2563eb;--bg:#f1f5f9;--card:#fff;--txt:#172033;--mut:#64748b;--line:#dbe3ec;--ok:#166534;--okbg:#dcfce7;--warn:#92400e;--warnbg:#fef3c7;--danger:#b91c1c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--txt)}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:9px 13px;background:var(--pri);color:white}button.secondary{background:#e2e8f0;color:#172033}button.danger{background:#fee2e2;color:#b91c1c}.top{background:var(--nav);color:#fff;padding:14px 18px;position:sticky;top:0;z-index:20}.top h1{margin:0;font-size:20px}.layout{display:flex}.side{width:240px;background:#111827;color:#fff;min-height:calc(100vh - 61px);position:sticky;top:61px;height:calc(100vh - 61px);overflow:auto;padding:10px}.side button{display:block;width:100%;text-align:left;background:transparent;margin:3px 0}.side button.active{background:#2563eb}.main{flex:1;padding:16px;max-width:1300px;margin:auto;width:100%}.mobile{display:none;overflow:auto;white-space:nowrap;padding:8px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:61px;z-index:15}.mobile button{margin-right:5px}.card{background:white;border-radius:15px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0f172a14}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:10px}.field label{display:block;font-weight:bold;font-size:13px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px}.stat{font-size:29px;font-weight:bold}.muted{color:var(--mut)}.pill{display:inline-block;padding:4px 8px;background:#eff6ff;color:#1d4ed8;border-radius:99px;font-size:12px;margin:2px}.notice{padding:11px;border-radius:9px;margin-bottom:10px}.ok{background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.table{overflow:auto}table{border-collapse:collapse;width:100%;min-width:750px}th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;font-size:13px;vertical-align:top}th{background:#f8fafc}.actions{display:flex;gap:7px;flex-wrap:wrap}.chapter{border:1px solid var(--line);padding:10px;border-radius:10px;background:#f8fafc}.chapter b{display:block}.title{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+@media(max-width:800px){.side{display:none}.mobile{display:block}.main{padding:9px}.row{grid-template-columns:1fr}.top h1{font-size:17px}}
+@media print{.side,.mobile,.top,.noprint{display:none!important}.main{padding:0}.card{box-shadow:none}}
+</style>
+</head>
+<body><div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect}=React;
+const KEY="sinilai-sd-v7-lengkap-2026-2027";
+const CLASSES=["I","II","III","IV","V","VI"];
+const SUBJECTS=["Bahasa Indonesia","Pendidikan Pancasila","Matematika","IPAS","PJOK","Seni Rupa","Seni Musik","Seni Tari","Seni Teater","Bahasa Inggris","Pendidikan Agama dan Budi Pekerti"];
+
+const SIBI={
+"I|Bahasa Indonesia":["Bunyi Apa?","Ayo, Bermain!","Awas Kuman!","Aku Bisa!","Teman Baru","Berbeda Itu Tak Apa","Aku Ingin","Di Sekitar Rumah"],
+"II|Bahasa Indonesia":["Mengenal Perasaan","Menjaga Kesehatan","Berhati-hati di Mana Saja","Keluargaku Unik","Berteman dalam Keragaman","Bijak Memakai Uang","Sayang Lingkungan","Hobi yang Jadi Prestasi"],
+"III|Bahasa Indonesia":["Ayo, Main!","Kawan Seiring","Pengobar Semangat","Senyum di Sekitarku","Bola-Bola Cokelat","Tersesat","Aku dan si Merah"],
+"IV|Bahasa Indonesia":["Sudah Besar","Di Bawah Atap","Lihat Sekitar","Meliuk dan Menerjang","Bertukar dan Membayar","Satu Titik","Asal-Usul","Sehatlah Ragaku"],
+"V|Bahasa Indonesia":["Aku yang Unik","Buku Jendela Dunia","Ekspresi Diri melalui Hobi","Belajar Berwirausaha","Menjadi Warga Dunia","Cinta Indonesia","Sayangi Bumi","Bergerak Bersama"],
+"VI|Bahasa Indonesia":["Bangga Menjadi Anak Indonesia","Musisi Indonesia di Pentas Dunia","Taman Nasional dan Situs Warisan Dunia","Jeda untuk Iklim","Anak-Anak yang Mengubah Dunia","Liburan Perpisahan Kelas","Aku Bisa Berempati","Aman di Dunia Maya"],
+"IV|IPAS":["Tumbuhan, Sumber Kehidupan di Bumi","Wujud Zat dan Perubahannya","Gaya di Sekitar Kita","Mengubah Bentuk Energi","Cerita Tentang Daerahku","Indonesiaku Kaya Budaya","Bagaimana Mendapatkan Semua Kebutuhan Kita?","Membangun Masyarakat yang Beradab"],
+"IV|Pendidikan Pancasila":["Mengenal Lingkungan Sekitar","Aku Anak yang Disiplin","Kerja Sama di Lingkunganku","Pancasila dalam Diriku"],
+"IV|Matematika":["Bilangan Cacah sampai 10.000","Pecahan","Pola Gambar dan Pola Bilangan","Pengukuran Luas dan Volume","Bangun Datar","Piktogram dan Diagram Batang"]
+};
+const BOOKMETA={
+"I|Bahasa Indonesia":["Bahasa Indonesia: Aku Bisa! untuk SD/MI Kelas I (Edisi Revisi)","978-623-118-362-0"],
+"II|Bahasa Indonesia":["Bahasa Indonesia Keluargaku Unik untuk SD/MI Kelas II (Edisi Revisi)","978-623-388-133-3"],
+"III|Bahasa Indonesia":["Bahasa Indonesia: Kawan Seiring untuk SD/MI Kelas III (Edisi Revisi)","978-634-00-3315-1"],
+"IV|Bahasa Indonesia":["Bahasa Indonesia: Lihat Sekitar untuk SD/MI Kelas IV (Edisi Revisi)","978-623-118-363-7"],
+"V|Bahasa Indonesia":["Bahasa Indonesia: Bergerak Bersama untuk SD/MI Kelas V (Edisi Revisi)","978-623-388-134-0"],
+"VI|Bahasa Indonesia":["Bahasa Indonesia: Anak-Anak yang Mengubah Dunia untuk SD/MI","978-634-00-2617-7"]
+};
+
+const PHASE={I:"A",II:"A",III:"B",IV:"B",V:"C",VI:"C"};
+const BASE={
+"Bahasa Indonesia":["Menyimak informasi dan memahami makna teks yang didengar.","Membaca dan memirsa teks sesuai tujuan serta menemukan informasi penting.","Berbicara dan mempresentasikan gagasan dengan santun, runtut, dan percaya diri.","Menulis berbagai teks sederhana/kompleks sesuai tujuan, struktur, dan kaidah kebahasaan."],
+"Pendidikan Pancasila":["Memahami nilai Pancasila dan menerapkannya dalam kehidupan sehari-hari.","Menunjukkan sikap sesuai norma, aturan, hak dan kewajiban.","Memahami keberagaman dan membangun kerja sama dalam kehidupan bersama.","Menunjukkan tanggung jawab sebagai warga sekolah, masyarakat, dan negara."],
+"Matematika":["Memahami bilangan dan operasi hitung sesuai fase serta menggunakannya untuk memecahkan masalah.","Memahami pola, pengukuran, geometri, dan hubungan antarkonsep matematika.","Mengolah, menyajikan, dan menafsirkan data sederhana.","Menggunakan penalaran dan strategi pemecahan masalah dalam situasi nyata."],
+"IPAS":["Mengamati fenomena alam dan sosial serta mengajukan pertanyaan berdasarkan bukti.","Menjelaskan konsep sains dan kehidupan sosial melalui penyelidikan sederhana.","Mengolah informasi, data, dan hasil pengamatan untuk membuat kesimpulan.","Menunjukkan kepedulian terhadap lingkungan, masyarakat, dan keberlanjutan."],
+"PJOK":["Mempraktikkan gerak dasar dan keterampilan aktivitas jasmani sesuai tahap perkembangan.","Menerapkan pola hidup sehat, kebugaran, keselamatan, dan sportivitas.","Mengembangkan kerja sama, disiplin, tanggung jawab, dan percaya diri melalui aktivitas fisik."],
+"Seni Rupa":["Mengeksplorasi unsur, prinsip, alat, bahan, dan teknik seni rupa.","Menciptakan karya seni rupa berdasarkan gagasan dan pengalaman.","Merefleksikan karya dan menghargai karya diri sendiri maupun orang lain."],
+"Seni Musik":["Mengeksplorasi bunyi, ritme, melodi, tempo, dan dinamika.","Memainkan atau menyanyikan karya musik secara ekspresif.","Mencipta, menampilkan, dan merefleksikan pengalaman bermusik."],
+"Seni Tari":["Mengeksplorasi gerak, ruang, waktu, tenaga, dan unsur tari.","Menciptakan dan menampilkan rangkaian gerak tari.","Menghargai keberagaman tari dan merefleksikan pengalaman berkarya."],
+"Seni Teater":["Mengeksplorasi tubuh, suara, ekspresi, ruang, dan karakter.","Memainkan adegan sederhana dengan kerja sama dan percaya diri.","Mencipta, menampilkan, dan merefleksikan pertunjukan teater."],
+"Bahasa Inggris":["Memahami makna ungkapan lisan dan tulisan sederhana sesuai konteks.","Berinteraksi menggunakan ungkapan sederhana untuk tujuan komunikasi.","Membaca dan menulis teks sederhana dengan kosakata yang relevan."],
+"Pendidikan Agama dan Budi Pekerti":["Memahami ajaran pokok agama sesuai keyakinan peserta didik.","Menerapkan nilai keimanan, ibadah, akhlak/budi pekerti dalam kehidupan sehari-hari.","Menunjukkan sikap toleran, bertanggung jawab, peduli, dan berbuat baik dalam kehidupan bersama."]
+};
+
+function makeDocs(kelas,mapel){
+ const phase=PHASE[kelas], base=BASE[mapel]||BASE["Bahasa Indonesia"];
+ const tp=base.flatMap((x,i)=>[
+  `Peserta didik mampu ${x.charAt(0).toLowerCase()+x.slice(1)}`,
+  `Peserta didik mampu menerapkan ${x.replace(/^Memahami |^Menyimak |^Membaca |^Berbicara |^Menulis /,"").toLowerCase()} dalam konteks kehidupan sehari-hari.`
+ ]);
+ const atp=tp.map((x,i)=>({urutan:i+1,semester:i<Math.ceil(tp.length/2)?1:2,tp:x}));
+ const cp=`Fase ${phase}: ${base.join(" ")}`;
+ const prota=atp.map((a,i)=>({urutan:i+1,semester:a.semester,alokasi:Math.max(2,4+(i%3)),materi:a.tp}));
+ const prosem=atp.map((a,i)=>({urutan:i+1,semester:a.semester,minggu:(i%2)+1,materi:a.tp}));
+ const chapters=SIBI[kelas+"|"+mapel]||[];
+ const rpm=(chapters.length?chapters:["Pembelajaran unit 1","Pembelajaran unit 2","Pembelajaran unit 3","Pembelajaran unit 4"]).map((c,i)=>({
+  bab:i+1,judul:c,tujuan:`Peserta didik memahami konsep utama ${c} dan mampu menerapkannya melalui kegiatan bermakna.`,kegiatan:"Pemantik → eksplorasi → kolaborasi → praktik → refleksi.",asesmen:"Observasi, unjuk kerja, produk/proyek, dan tes tertulis sesuai tujuan.",diferensiasi:"Konten, proses, produk, dan dukungan disesuaikan kebutuhan peserta didik."
+ }));
+ return {cp,tp,atp,prota,prosem,rpm};
+}
+function seed(){
+ const docs={}; for(const k of CLASSES)for(const s of SUBJECTS)docs[k+"|"+s]=makeDocs(k,s);
+ return {school:{name:"SD Contoh",teacher:"",nip:"",year:"2026/2027"},students:[],scores:{},docs};
+}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.docs?x:seed()}catch(e){return seed()}}
+function App(){
+ const [tab,setTab]=useState("Dashboard"),[kelas,setKelas]=useState("IV"),[mapel,setMapel]=useState("Bahasa Indonesia"),[db,setDb]=useState(load),[semester,setSemester]=useState(1),[notice,setNotice]=useState("");
+ const key=kelas+"|"+mapel, doc=db.docs[key]||makeDocs(kelas,mapel), chapters=SIBI[key]||[];
+ useEffect(()=>localStorage.setItem(KEY,JSON.stringify(db)),[db]);
+ const setDoc=(name,val)=>setDb(d=>({...d,docs:{...d.docs,[key]:{...d.docs[key],[name]:val}}}));
+ const addStudent=()=>setDb(d=>({...d,students:[...d.students,{id:Date.now(),name:"Siswa Baru",nis:"",nisn:"",gender:"",address:""}]}));
+ const upStudent=(id,k,v)=>setDb(d=>({...d,students:d.students.map(s=>s.id===id?{...s,[k]:v}:s)}));
+ const delStudent=id=>setDb(d=>({...d,students:d.students.filter(s=>s.id!==id)}));
+ const scoreKey=(sid,bab,sem)=>sid+"|"+key+"|"+bab+"|"+sem;
+ const setScore=(sid,bab,sem,v)=>setDb(d=>({...d,scores:{...d.scores,[scoreKey(sid,bab,sem)]:v}}));
+ const getScore=(sid,bab,sem)=>db.scores[scoreKey(sid,bab,sem)]??"";
+ function backup(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="backup-si-nilai-2026-2027.json";a.click()}
+ function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{setDb(JSON.parse(r.result));setNotice("Backup berhasil dipulihkan.")}catch{setNotice("File backup tidak valid.")}};r.readAsText(f)}
+ const nav=tabName=><button className={tab===tabName?"active":""} onClick={()=>setTab(tabName)}>{tabName}</button>;
+ return <div>
+  <div className="top"><h1>SI-NILAI SD V7 LENGKAP — 2026/2027</h1><small>Kurikulum Merdeka • Fase A, B, C • Tanpa STS</small></div>
+  <div className="mobile">{["Dashboard","Data Siswa","CP","TP","ATP","Prota","Prosem","RPM Deep Learning","Penilaian Per BAB","Rapor","Import Data"].map(nav)}</div>
+  <div className="layout"><aside className="side">{["Dashboard","Data Siswa","CP","TP","ATP","Prota","Prosem","RPM Deep Learning","Penilaian Per BAB","Rapor","Import Data"].map(nav)}</aside>
+  <main className="main">
+   {notice&&<div className="notice ok">{notice}</div>}
+   <div className="card noprint"><div className="row">
+    <div className="field"><label>Kelas</label><select value={kelas} onChange={e=>setKelas(e.target.value)}>{CLASSES.map(x=><option>{x}</option>)}</select></div>
+    <div className="field"><label>Mata Pelajaran</label><select value={mapel} onChange={e=>setMapel(e.target.value)}>{SUBJECTS.map(x=><option>{x}</option>)}</select></div>
+   </div></div>
+
+   {tab==="Dashboard"&&<><div className="card"><div className="title"><div><h2>Dashboard</h2><div className="muted">Data sudah terisi otomatis sebagai dasar pengelolaan administrasi.</div></div><span className="pill">Kelas {kelas} • {mapel}</span></div></div>
+    <div className="grid"><div className="card"><div className="stat">{db.students.length}</div>Peserta Didik</div><div className="card"><div className="stat">{Object.keys(db.scores).length}</div>Nilai Tersimpan</div><div className="card"><div className="stat">{SUBJECTS.length}</div>Mata Pelajaran</div><div className="card"><div className="stat">Fase {PHASE[kelas]}</div>Kurikulum</div></div>
+    <div className="card"><h3>Isi V7</h3><div className="pill">CP terisi</div><div className="pill">TP terisi</div><div className="pill">ATP terisi</div><div className="pill">Prota terisi</div><div className="pill">Prosem terisi</div><div className="pill">RPM terisi</div><div className="pill">Penilaian BAB</div><div className="pill">Rapor</div><p className="muted">CP/TP/ATP dibuat sebagai rancangan kerja yang dapat diedit sesuai KOSP dan kebutuhan sekolah. Referensi BAB yang ditampilkan menggunakan data SIBI yang telah diverifikasi.</p></div>
+   </>}
+
+   {tab==="Data Siswa"&&<div className="card"><div className="title"><h2>Data Siswa</h2><button onClick={addStudent}>+ Tambah Siswa</button></div><div className="table"><table><thead><tr><th>No</th><th>Nama</th><th>NIS</th><th>NISN</th><th>JK</th><th>Alamat</th><th></th></tr></thead><tbody>{db.students.map((s,i)=><tr><td>{i+1}</td><td><input value={s.name} onChange={e=>upStudent(s.id,"name",e.target.value)}/></td><td><input value={s.nis} onChange={e=>upStudent(s.id,"nis",e.target.value)}/></td><td><input value={s.nisn} onChange={e=>upStudent(s.id,"nisn",e.target.value)}/></td><td><select value={s.gender} onChange={e=>upStudent(s.id,"gender",e.target.value)}><option></option><option>L</option><option>P</option></select></td><td><input value={s.address} onChange={e=>upStudent(s.id,"address",e.target.value)}/></td><td><button className="danger" onClick={()=>delStudent(s.id)}>Hapus</button></td></tr>)}</tbody></table></div>{!db.students.length&&<p className="muted">Belum ada siswa. Tekan Tambah Siswa.</p>}</div>}
+
+   {["CP","TP","ATP","Prota","Prosem"].includes(tab)&&<div className="card"><div className="title"><div><h2>{tab}</h2><div className="muted">Kelas {kelas} • {mapel} • Fase {PHASE[kelas]}</div></div><button onClick={()=>setDoc(tab,makeDocs(kelas,mapel)[tab.toLowerCase()]||doc[tab])}>Reset otomatis</button></div>
+    {tab==="CP"&&<textarea rows="9" value={doc.cp} onChange={e=>setDoc("cp",e.target.value)}/>}
+    {tab==="TP"&&<div>{doc.tp.map((x,i)=><div className="field"><label>TP {i+1}</label><textarea rows="2" value={x} onChange={e=>{let a=[...doc.tp];a[i]=e.target.value;setDoc("tp",a)}}/></div>)}</div>}
+    {tab==="ATP"&&<div className="table"><table><thead><tr><th>Urutan</th><th>Semester</th><th>Tujuan Pembelajaran</th></tr></thead><tbody>{doc.atp.map((x,i)=><tr><td>{x.urutan}</td><td>{x.semester}</td><td><textarea rows="2" value={x.tp} onChange={e=>{let a=[...doc.atp];a[i]={...a[i],tp:e.target.value};setDoc("atp",a)}}/></td></tr>)}</tbody></table></div>}
+    {(tab==="Prota"||tab==="Prosem")&&<div className="table"><table><thead><tr><th>Urutan</th><th>Semester</th><th>{tab==="Prota"?"Alokasi":"Minggu"}</th><th>Materi/Tujuan</th></tr></thead><tbody>{doc[tab.toLowerCase()].map((x,i)=><tr><td>{x.urutan}</td><td>{x.semester}</td><td>{tab==="Prota"?x.alokasi+" JP":x.minggu}</td><td><textarea rows="2" value={x.materi} onChange={e=>{let a=[...doc[tab.toLowerCase()]];a[i]={...a[i],materi:e.target.value};setDoc(tab.toLowerCase(),a)}}/></td></tr>)}</tbody></table></div>}
+   </div>}
+
+   {tab==="RPM Deep Learning"&&<div className="card"><div className="title"><div><h2>RPM Deep Learning per BAB</h2><div className="muted">Rencana Pembelajaran Mendalam • {kelas} • {mapel}</div></div></div>{chapters.length?<div className="grid">{doc.rpm.map((r,i)=><div className="chapter"><b>BAB {r.bab}. {r.judul}</b><p><b>Tujuan:</b> {r.tujuan}</p><p><b>Kegiatan:</b> {r.kegiatan}</p><p><b>Asesmen:</b> {r.asesmen}</p><p><b>Diferensiasi:</b> {r.diferensiasi}</p></div>)}</div>:<div className="notice warn">Untuk kombinasi {kelas}–{mapel}, daftar BAB SIBI belum dimasukkan karena belum diverifikasi. Saya tidak mengarang nama BAB.</div>}</div>}
+
+   {tab==="Penilaian Per BAB"&&<div className="card"><h2>Penilaian Per BAB</h2><p className="muted">Input nilai 0–100. STS tidak digunakan. Untuk buku yang BAB-nya sudah diverifikasi, nama BAB mengikuti SIBI.</p>{chapters.length?<div className="table"><table><thead><tr><th>Siswa</th>{chapters.map((c,i)=><th>BAB {i+1}<br/>{c}</th>)}<th>Akhir Semester</th></tr></thead><tbody>{db.students.map(s=><tr><td>{s.name}</td>{chapters.map((c,i)=><td><input type="number" min="0" max="100" value={getScore(s.id,i+1,semester)} onChange={e=>setScore(s.id,i+1,semester,e.target.value)}/></td>)}<td><input type="number" min="0" max="100" value={getScore(s.id,99,semester)} onChange={e=>setScore(s.id,99,semester,e.target.value)}/></td></tr>)}</tbody></table></div>:<div className="notice warn">Belum ada daftar BAB SIBI terverifikasi untuk kombinasi ini. Penilaian BAB tidak dibuat dengan nama BAB fiktif.</div>}</div>}
+
+   {tab==="Rapor"&&<div className="card"><div className="title"><h2>Rapor</h2><button onClick={()=>window.print()}>Cetak / Simpan PDF</button></div><div className="field"><label>Nama Sekolah</label><input value={db.school.name} onChange={e=>setDb({...db,school:{...db.school,name:e.target.value}})}/></div><div className="field"><label>Guru/Kelas</label><input value={db.school.teacher} onChange={e=>setDb({...db,school:{...db.school,teacher:e.target.value}})}/></div><div className="table"><table><thead><tr><th>No</th><th>Nama</th><th>Mapel</th><th>Rata-rata BAB</th><th>Nilai Akhir Semester</th><th>Deskripsi</th></tr></thead><tbody>{db.students.map((s,i)=>{let vals=chapters.map((_,j)=>Number(getScore(s.id,j+1,semester))).filter(x=>x>0),avg=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"-",akhir=getScore(s.id,99,semester);return <tr><td>{i+1}</td><td>{s.name}</td><td>{mapel}</td><td>{avg}</td><td>{akhir||"-"}</td><td>{avg==="-"?"Belum ada nilai.":Number(avg)>=90?"Sangat Baik.":Number(avg)>=80?"Baik.":"Perlu penguatan dan pendampingan."}</td></tr>})}</tbody></table></div></div>}
+
+   {tab==="Import Data"&&<div className="card"><h2>Import / Backup Data</h2><p>Data aplikasi tersimpan di browser perangkat ini.</p><div className="actions"><button onClick={backup}>Download Backup JSON</button><label><button className="secondary">Restore JSON</button><input className="noprint" type="file" accept=".json" onChange={restore} style={{display:"none"}}/></label><button className="secondary" onClick={()=>{setDb(seed());setNotice("Data dasar V7 dikembalikan.")}}>Kembalikan Data Dasar V7</button></div><hr/><p className="muted">Untuk penggunaan banyak guru/perangkat secara bersama, tahap berikutnya adalah menghubungkan V7 ke backend dan PostgreSQL/Neon.</p></div>}
+  </main></div>
+ </div>
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script></body></html>
